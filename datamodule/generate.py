@@ -17,9 +17,15 @@ def main():
 
     for can_message in config["can_messages"]:
 
-        cpp_template.render(
-            moduleName=can_message["name"]
-        )
+        for attribute in can_message["schema"]:
+            attribute["bytes"] = 2
+
+        with open(f"{can_message['name']}.cpp", "w") as f:
+            file = cpp_template.render(
+                moduleName=can_message["name"],
+                attributes=can_message["schema"],
+            )
+            f.write(file)
 
 
 if __name__ == "__main__":

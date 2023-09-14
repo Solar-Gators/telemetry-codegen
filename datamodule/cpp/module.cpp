@@ -18,22 +18,26 @@ namespace {
 { }
 
 {% for attribute in attributes %}
-  {{ attribute["type"] }} {{ moduleName }}::Get{{ attribute["name"] }}Val() const
-  {
-    return {{ attribute["name"] }};
-  }
+{{ attribute["type"] }} {{ moduleName }}::Get{{ attribute["name"] }}Val() const
+{
+  return {{ attribute["name"] }};
+}
 {% endfor %}
 
 void {{ moduleName }}::ToByteArray(uint8_t* buff) const
 {
-  buff[0] = static_cast<uint8_t>(throttle_);
-  buff[1] = static_cast<uint8_t>(throttle_ >> 8);
-  buff[2] = static_cast<uint8_t>(breaks_);
+  {% for attribute in attributes %}
+    {%- for byte in range(attribute["bytes"]) %}
+      buff[{{ byte }}] = static_cast<uint8_t>({{ attribute["name"] }} >> {{ byte }});
+    {% endfor %}
+  {% endfor %}
 }
 void {{ moduleName }}::FromByteArray(uint8_t* buff)
 {
-  throttle_ = static_cast<uint16_t>(buff[1]) << 8 | buff[0];
-  breaks_ = static_cast<bool>(buff[2] & 0x1);
+  {% for attribute in attributes %}
+    // TODO: This one is much harder and prone to error
+    throttle_ = static_cast<uint16_t>(buff[1]) << 8 | buff[0];
+  {% endfor %}
 }
 
 #ifdef IS_TELEMETRY
