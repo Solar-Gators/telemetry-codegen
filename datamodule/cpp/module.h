@@ -1,27 +1,26 @@
 /*
  * FrontLights.hpp
  *
- *  Created on: Jan 17, 2022
- *      Author: John Carr
+ *  THIS IS AUTO GENERATED, DO NOT EDIT
  */
 
 #ifndef SOLARGATORSBSP_STM_DATAMODULES_INC_FRONTLIGHTS_HPP_
 #define SOLARGATORSBSP_STM_DATAMODULES_INC_FRONTLIGHTS_HPP_
 
-#include <DataModule.hpp>
+#include "DataModule.hpp"
 #define BUFF_SIZE 50
 
 namespace SolarGators {
 namespace DataModules {
 
-class FrontLights: public DataModule {
+class {{ moduleName }}: public DataModule {
 public:
-  FrontLights();
-  ~FrontLights();
-  uint16_t GetThrottleVal() const;
-  bool GetBreaksVal() const;
-  uint8_t buffCtr;
-  uint16_t breaksBuffer[BUFF_SIZE];
+  {{ moduleName }}();
+  ~{{ moduleName }}();
+  {% for attribute in attributes %}
+  {{ attribute["type"] }} Get{{ attribute["name"] }}Val() const;
+  {% endfor %}
+
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
@@ -30,10 +29,9 @@ public:
   #endif
 
 protected:
-  uint16_t throttle_;
-  bool breaks_;
-
-  // TODO: Accelerometer values
+  {% for attribute in attributes %}
+  {{ attribute["type"] }} {{ attribute["name"] }};
+  {% endfor %}
 };
 
 } /* namespace DataModules */
