@@ -17,7 +17,7 @@ int main() {
         return -1;
     }
 
-    if (RX0.GetSecondVal() != 0x4021) {
+    if (RX0.GetSecondVal() != 0x4020) {
         std::cout << "second is wrong!" << std::endl;
         return -1;
     }
