@@ -1,0 +1,11 @@
+can_messages:
+  - id: 0x11
+    name: "RX0"
+    schema:
+      - type: "uint16_t"
+        name: "first"
+        default: 0
+
+      - type: "uint16_t"
+        name: "second"
+        default: 0
